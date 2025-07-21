@@ -1,0 +1,32 @@
+Luật sửa đổi về Luật Dịch vụ Thanh toán, Nhật Bản, năm 2016. Truy cập tại: https://www.japaneselawtranslation.go.jp/en/laws/view/3078.
+
+Sở Thuế vụ Hoa Kỳ (IRS). (2014). Thông báo 2014-21: Giải thích cách các quy định thuế áp dụng đối với giao dịch bằng tiền ảo. Truy cập ngày 11 tháng 7 năm 2025 tại https://www.irs.gov/pub/irs-drop/n-14-21.pdf
+
+Hern, A. (31/3/2014). Bitcoin is legally property, says US IRS. Does that kill it as a currency? The Guardian. Truy cập ngày 11 tháng 7 năm 2025 tại https://www.theguardian.com/technology/2014/mar/31/bitcoin-legally-property-irs-currency
+
+Khuyến nghị 15 & Hướng dẫn cập nhật tiếp cận dựa trên rủi ro đối với Tài sản Ảo và các Nhà cung cấp Dịch vụ Tài sản Ảo (VASPs), tháng 10/2021, https://www.fatf-gafi.org/en/publications/fatfrecommendations/documents/guidance-rba-virtual-assets-2021.html
+
+Khung Báo cáo Tài sản Tiền mã hoá (Crypto-Asset Reporting Framework - CARF) của OECD (2022), https://www.oecd.org/tax/exchange-of-tax-information/crypto-asset-reporting-framework-and-amendments-to-the-common-reporting-standard.pdf
+
+Quy định chính thức (EU) 2023/1114, https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R1114
+
+Đạo luật Blockchain Liechtenstein (TVTG) (2020), 
+https://www.regierung.li/files/medienarchiv/950-6-01-09-2021-en.pdf
+
+Đạo luật Dịch vụ Thanh toán (PSA) & Đạo luật Công cụ và Giao dịch Tài chính. Hướng dẫn của Cơ quan Dịch vụ Tài chính Nhật Bản (FSA), https://www.fsa.go.jp/en/
+
+Đạo luật Dịch vụ Thanh toán (PSA). Hướng dẫn về Dịch vụ Token Thanh toán Kỹ thuật số (DPT) của Cơ quan Tiền tệ Singapore (MAS), https://www.mas.gov.sg/regulation
+
+Đạo luật Báo cáo và Sử dụng Thông tin Giao dịch Tài chính Đặc định (2021, cập nhật cho các sàn crypto). Tóm lược bởi Cơ quan Tình báo Tài chính Hàn Quốc (KoFIU): https://www.kofiu.go.kr/eng/main.do
+
+Hướng dẫn của FINMA về phòng chống rửa tiền & blockchain, https://www.finma.ch/en/documentation/finma-guidance/
+
+Nhóm Công tác Thị trường Tài chính của Tổng thống Mỹ (PWG), Báo cáo về Stablecoin (11/2021), https://home.treasury.gov/system/files/136/StableCoinReport_Nov2021.pdf
+
+IMF, “Tác động của Fintech đối với Quản trị Ngân hàng Trung ương” (2022), https://www.imf.org/en/Publications/Departmental-Papers-Policy-Papers/Issues/2022/08/05/The-Impact-of-Fintech-on-Central-Bank-Governance-522336
+
+Ngân hàng Thanh toán Quốc tế (BIS) / Ủy ban Hệ thống Thanh toán & Hạ tầng Thị trường (CPMI), các báo cáo về crypto & stablecoin, https://www.bis.org/cpmi/publ/d187.pdf
+
+Zetzsche, Dirk Andreas and Buckley, Ross P. and Arner, Douglas W., Regulating LIBRA: The Transformative Potential of Facebook’s Cryptocurrency and Possible Regulatory Responses (July 11, 2019). European Banking Institute Working Paper Series 2019/44, University of New South Wales Law Research Series UNSWLRS 19-47 , University of Hong Kong Faculty of Law Research Paper No. 2019/042, University of Luxembourg Faculty of Law Research Paper, Oxford Journal of Legal Studies (Forthcoming), Available at SSRN: https://ssrn.com/abstract=3414401
+
+Michel Rauchs et al., “2nd Global Cryptoasset Benchmarking Study”, Đại học Cambridge (2018, cập nhật 2020), https://www.jbs.cam.ac.uk/faculty-research/centres/alternative-finance/publications/

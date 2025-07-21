@@ -4,7 +4,19 @@
 #include "main.h"
 
 template <typename T>
+struct element {
+    T value;
+    element<T>* next;
+    element<T>* prev;
+    element(T data);
+};
+
+template <typename T>
 class DoublyLinkedList {
+public:
+    element<T>* head;
+    element<T>* tail;
+    int listSize;
     // TODO: may provide some attributes
 
 public:
@@ -22,7 +34,6 @@ public:
     void reverse();
     string toString(string (*convert2str)(T&) = 0) const;
 };
-
 class TextBuffer {
 private:
     DoublyLinkedList<char> buffer; 
@@ -63,4 +74,3 @@ public:
 };
 
 #endif // __TEXT_BUFFER_H__
-
