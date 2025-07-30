@@ -31,6 +31,7 @@ void DoublyLinkedList<T>::insertAtHead(T data) {
     if(!head && !tail){
         head = newEle;
         tail = newEle;
+        listSize++;
         return;
     }
     newEle->prev = nullptr;
@@ -46,6 +47,7 @@ void DoublyLinkedList<T>::insertAtTail(T data) {
     if(!head && !tail){
         head = newEle;
         tail = newEle;
+        listSize++;
         return;
     }
     newEle->prev = tail;
@@ -58,10 +60,15 @@ void DoublyLinkedList<T>::insertAtTail(T data) {
 template <typename T>
 void DoublyLinkedList<T>::insertAt(int index, T data) {
     if(index < 0 || index > listSize - 1){
-        cout<<"out of range\n";
-        return;
+        throw out_of_range("Index is invalid!");
     }
     element<T>* newEle = new element<T>(data);
+    if(!head && !tail){
+        head = newEle;
+        tail = newEle;
+        listSize++;
+        return;
+    }
     if(index == 0) insertAtHead(data);
     else {
         element<T>* post = head;
@@ -81,8 +88,7 @@ void DoublyLinkedList<T>::insertAt(int index, T data) {
 template <typename T>
 void DoublyLinkedList<T>::deleteAt(int index) {
     if(index < 0 || index > listSize - 1){
-        cout<<"out of range\n";
-        return;
+        throw out_of_range("Index is invalid!");
     }
     element<T>* current = head;
     for(int i = 0; i < index; i++){
@@ -93,13 +99,14 @@ void DoublyLinkedList<T>::deleteAt(int index) {
     element<T>* previous = current->prev;
     if(previous)
         previous->next = post;
-    else
-        head = current;
+    else{
+        head = post;
+    }
 
     if(post)
         post->prev = previous;
     else
-        tail = current;
+        tail = previous;
 
     listSize--;
     delete current;
@@ -107,8 +114,7 @@ void DoublyLinkedList<T>::deleteAt(int index) {
 template <typename T>
 T& DoublyLinkedList<T>::get(int index) const {
     if(index < 0 || index > listSize - 1){
-        cout<<"out of range\n";
-        //return nullptr;
+        throw out_of_range("Index is invalid!");
     }
     element<T>* current = head;
     for(int i = 0; i < index; i++){
@@ -117,7 +123,71 @@ T& DoublyLinkedList<T>::get(int index) const {
     return (current->value);
 };
 
+template <typename T>
+int DoublyLinkedList<T>::indexOf(T item) const {
+    element<T>* current = head;
+    int index = 0;
+    while(current){
+        if(current->value == item)
+            return index; 
+        current = current->next;
+        index++;
+    }
+    return -1;
+}
 
+template <typename T>
+bool DoublyLinkedList<T>::contains(T item) const {
+    return (indexOf(item) != -1);
+}
+
+template <typename T>
+int DoublyLinkedList<T>::size() const {
+    return this->listSize;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::reverse() {
+    element<T>* current = head;
+    element<T>* hold = current->next;
+    swap(head,tail);
+    while(hold){
+        hold = current->next;
+        swap(current->next,current->prev);
+        current = hold;
+    }
+}
+
+string intToString(int value) {
+    return to_string(value);
+}
+string intToString(double value) {
+    return to_string(value);
+}
+string charToString(char& value) {
+    return string(1,value);
+}
+
+
+template <typename T>
+string DoublyLinkedList<T>::toString(string (*convert2str)(T&)) const {
+    stringstream s;
+    s << "[";
+
+    element<T>* current = head;
+    while(current) {
+        if(convert2str)
+            s << convert2str(current->value);
+        else 
+            s << current->value;
+
+        s << ((current->next != nullptr) ? ", " : "]");
+
+        current = current->next;
+    }
+
+    return s.str();
+}
 // TODO: implement other methods of DoublyLinkedList
 
 // ----------------- TextBuffer -----------------
@@ -145,14 +215,26 @@ TextBuffer::HistoryManager::~HistoryManager() {
 int main(){
     DoublyLinkedList<char> theList;
     //for(int i = 65; i <= 90; i++)
-    theList.insertAtHead('s');
-    theList.insertAtTail('a');
-    theList.insertAtTail('a');
-    theList.insertAtTail('a');
-    theList.insertAt(0,'@');
+    theList.insertAtHead('a');
+    theList.insertAtTail('b');
+    theList.insertAtTail('c');
+    theList.insertAtTail('d');
+    theList.insertAt(0,'1');
     theList.insertAt(3,'2');
     theList.insertAt(5,'3');
-    cout<<theList.get(0)<<" "<<theList.get(3)<<" "<<theList.get(4)<<" "<<theList.get(5)<<endl;
-    theList.deleteAt(6);
-    cout<<theList.get(5);
+    for(int i = 0; i < 7; i++){
+        cout<<theList.get(i)<<endl;
+    }
+    theList.deleteAt(4);
+    cout<<"after del"<<endl;
+    for(int i = 0; i < 6; i++){
+        cout<<theList.get(i)<<endl;
+    }
+    theList.reverse();
+    cout<<"after rev"<<endl;
+    for(int i = 0; i < 6; i++){
+        cout<<theList.get(i)<<endl;
+    }
+    cout<<theList.toString(charToString);
+
 }
