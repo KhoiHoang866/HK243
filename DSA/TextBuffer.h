@@ -9,6 +9,9 @@ struct element {
     element<T>* next;
     element<T>* prev;
     element(T data);
+    bool operator < (const element<T>* other) const ;
+    bool operator > (const element<T>* other) const ;
+    bool operator== (const element<T>* other) const ;
 };
 
 template <typename T>
@@ -34,9 +37,10 @@ public:
     void reverse();
     string toString(string (*convert2str)(T&) = 0) const;
 };
+
 class TextBuffer {
 private:
-    DoublyLinkedList<char> buffer; 
+    DoublyLinkedList<char> buffer;
     int cursorPos;
 
     // TODO: may provide some attributes
