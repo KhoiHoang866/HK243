@@ -322,11 +322,18 @@ void quickSort__ (element<char>* start, element<char>* end){
     }
 }
 
+bool smallOrEqual (char a, char b){
+    if(isalpha(a) && isalpha(b)){
+        return tolower(a) < tolower(b) || tolower(a) == tolower(b) && a <= b;
+    }
+    return a <= b;
+}
+
 int partition(DoublyLinkedList<char>* list, int begin, int end) {
     int pivot = list->get(end);
     int mid = begin - 1;
     for(int i = begin; i < end; i++){
-        if(list->get(i) <= list->get(end)){
+        if(smallOrEqual(list->get(i), list->get(end))){
             swap(list->get(i), list->get(++mid));
         }
     }
@@ -344,7 +351,10 @@ void quickSort(DoublyLinkedList<char>* list, int begin, int end) {
 
 void TextBuffer::sortAscending() {
     quickSort(&buffer,0,buffer.size()-1);
+    cursorPos = 0;
 }
+
+
 // TODO: implement other methods of TextBuffer
 
 // ----------------- HistoryManager -----------------
@@ -383,14 +393,20 @@ int main(){
     // }
     // cout<<theList.toString(charToString);
 
+    // for(int i = 0; i < 256; i++){
+    //     cout<<(char)i<<endl;
+    // }
+    // return 0;
+
+
     TextBuffer note;
-    note.insert('d');
+    note.insert('a');
     note.insert('c');
     note.insert('b');
-    note.insert('e');
-    note.insert('a');
-    note.insert('f');
-    note.insert('c');
+    note.insert('d');
+    note.insert('C');
+    note.insert('A');
+    note.insert('[');
     note.sortAscending();
     cout<<note.getContent();
     note.deleteAllOccurrences('c');
