@@ -283,50 +283,46 @@ void TextBuffer::deleteAllOccurrences(char c) {
     }
 }
 
-// void merge(element<char>* begin, element<char>* mid, element<char>* end) {
-//     int l_idx = begin;
-//     int r_idx = mid + 1;
-// }
-
-// void mergeSort(int size, element<char>* begin, element<char>* end) {
-//     if(begin >= end) return;
-//     int mid = (begin + end) / 2;
-//     mergeSort(head, begin, mid);
-//     mergeSort(head, mid + 1, end);
-//     merge(head, begin, mid, end);
-// }
-
-element<char>* partition__ (element<char>* start, element<char>* end){
-    element<char>* pivot = end;
-    element<char>* current = start;
-    element<char>* mid = start->prev;
-
-    while(current != end) {
-        cout<<current->value<<endl;
-        if(current->value <= pivot->value) {
-            mid = (mid ? mid->next : start);
-            swap(mid->value,current->value);
-        }
-        current = current->next;
-    }
-    mid = (mid ? mid->next : start);
-    swap(mid->value,end->value);
-    return mid;
-}
-
-void quickSort__ (element<char>* start, element<char>* end){
-    if(start != end && start != end->next){
-        element<char>* mid = partition__(start,end);
-        quickSort__(start,mid);
-        quickSort__(mid->next,end);
-    }
-}
-
 bool smallOrEqual (char a, char b){
     if(isalpha(a) && isalpha(b)){
         return tolower(a) < tolower(b) || tolower(a) == tolower(b) && a <= b;
     }
     return a <= b;
+}
+
+void merge(DoublyLinkedList<char>* list, int begin, int mid, int end) {
+    int l_idx = begin;
+    int r_idx = mid + 1;
+    int count = 0;
+    char temp[end - begin + 1];
+    while(l_idx <= mid && r_idx <= end){
+        if (smallOrEqual(list->get(l_idx), list->get(r_idx))) {
+            temp[count++] = list->get(l_idx);
+            l_idx++;
+        } else {
+            temp[count++] = list->get(r_idx);
+            r_idx++;
+        }
+    }
+    while(l_idx <= mid) {
+        temp[count++] = list->get(l_idx);
+        l_idx++;
+    }
+    while(r_idx <= end) {
+        temp[count++] = list->get(r_idx);
+        r_idx++;
+    }
+    for(int i = 0; i < count; i++) {
+        list->get(begin + i) = temp[i];
+    }
+}
+
+void mergeSort(DoublyLinkedList<char>* list, int begin, int end) {
+    if(begin >= end) return;
+    int mid = (begin + end) / 2;
+    mergeSort(list, begin, mid);
+    mergeSort(list, mid + 1, end);
+    merge(list, begin, mid, end);
 }
 
 int partition(DoublyLinkedList<char>* list, int begin, int end) {
@@ -350,20 +346,31 @@ void quickSort(DoublyLinkedList<char>* list, int begin, int end) {
 }
 
 void TextBuffer::sortAscending() {
-    quickSort(&buffer,0,buffer.size()-1);
+    //quickSort(&buffer,0,buffer.size()-1);
+    mergeSort(&buffer,0,buffer.size()-1);
     cursorPos = 0;
 }
 
+void TextBuffer::undo() {
+    this->history.
+}
 
 // TODO: implement other methods of TextBuffer
 
 // ----------------- HistoryManager -----------------
 TextBuffer::HistoryManager::HistoryManager() {
-    // TODO
+    cout<<"history list created"<<endl;
 }
 
 TextBuffer::HistoryManager::~HistoryManager() {
-    // TODO
+    cout<<"history list deleted"<<endl;
+}
+
+
+void TextBuffer::HistoryManager::addAction(const string& actionName, int cursorPos, char c) {
+    Action* newAct = new Action(actionName,cursorPos,c);
+    //xóa những action sau trước khi thêm action mới
+    history.insertAtTail(*newAct);
 }
 
 //TODO: implement other methods of HistoryManager
@@ -400,13 +407,10 @@ int main(){
 
 
     TextBuffer note;
-    note.insert('a');
-    note.insert('c');
-    note.insert('b');
-    note.insert('d');
-    note.insert('C');
-    note.insert('A');
-    note.insert('[');
+    string chars = "gTrZaKGpBLmQbNwkXAeYcVoC";
+    for (char c : chars) {
+        note.insert(c);
+    }
     note.sortAscending();
     cout<<note.getContent();
     note.deleteAllOccurrences('c');
