@@ -38,12 +38,24 @@ public:
     string toString(string (*convert2str)(T&) = 0) const;
 };
 
+struct Action {
+    string actionName;
+    int cursorPos;
+    char c;
+    Action(string name, int pos, char ch){
+        actionName = name;
+        pos = cursorPos;
+        c = ch;
+    }
+};
+
 class TextBuffer {
 private:
     DoublyLinkedList<char> buffer;
     int cursorPos;
 
     // TODO: may provide some attributes
+
 
 public:
     TextBuffer();
@@ -65,6 +77,8 @@ public:
 
 public:
     class HistoryManager {
+        int historySize;
+        DoublyLinkedList<Action>actList;
         // TODO: may provide some attributes
 
     public:
@@ -74,7 +88,10 @@ public:
         void addAction(const string &actionName, int cursorPos, char c);
         void printHistory() const;
         int size() const;
+
     };
+    friend class TextBuffer::HistoryManager;
+    HistoryManager history;
 };
 
 #endif // __TEXT_BUFFER_H__
