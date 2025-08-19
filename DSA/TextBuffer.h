@@ -9,9 +9,9 @@ struct element {
     element<T>* next;
     element<T>* prev;
     element(T data);
-    bool operator < (const element<T>* other) const ;
-    bool operator > (const element<T>* other) const ;
-    bool operator== (const element<T>* other) const ;
+    // bool operator < (const element<T>* other) const ;
+    // bool operator > (const element<T>* other) const ;
+    // bool operator== (const element<T>* other) const ;
 };
 
 template <typename T>
@@ -55,8 +55,7 @@ private:
     int cursorPos;
 
     // TODO: may provide some attributes
-
-
+    int undoTime;
 public:
     TextBuffer();
     ~TextBuffer();
@@ -78,10 +77,13 @@ public:
 public:
     class HistoryManager {
         int historySize;
-        DoublyLinkedList<Action>actList;
+        DoublyLinkedList<string>actList;
+        int historyPos;
         // TODO: may provide some attributes
 
     public:
+        friend class TextBuffer;
+
         HistoryManager();
         ~HistoryManager();
 

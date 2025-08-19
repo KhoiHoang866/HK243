@@ -184,7 +184,6 @@ string charToString(char& value) {
     return string(1,value);
 }
 
-
 template <typename T>
 string DoublyLinkedList<T>::toString(string (*convert2str)(T&)) const {
     stringstream s;
@@ -209,6 +208,7 @@ string DoublyLinkedList<T>::toString(string (*convert2str)(T&)) const {
 // ----------------- TextBuffer -----------------
 TextBuffer::TextBuffer() {
     cursorPos = 0;
+    undoTime = 0;
 }
 
 TextBuffer::~TextBuffer() {
@@ -216,19 +216,22 @@ TextBuffer::~TextBuffer() {
 }
 
 void TextBuffer::insert(char c) {
+    history.addAction("insert",cursorPos,c);
     buffer.insertAt(cursorPos,c);
-    moveCursorRight();
+    cursorPos++;
 }
 
 void TextBuffer::deleteChar() {
+    history.addAction("delete",cursorPos,buffer.get(cursorPos - 1));
     buffer.deleteAt(cursorPos - 1);
-    moveCursorLeft();
+    cursorPos--;
 }
 
 void TextBuffer::moveCursorLeft() {
     if(cursorPos == 0)
         throw cursor_error();
     else 
+        history.addAction("move",cursorPos,'L');
         cursorPos--;
 }
 
@@ -236,6 +239,7 @@ void TextBuffer::moveCursorRight() {
     if(cursorPos == buffer.size())
         throw cursor_error();
     else 
+        history.addAction("move",cursorPos,'R');
         cursorPos++;
 }
 
@@ -248,7 +252,24 @@ void TextBuffer::moveCursorTo(int index) {
 
 // Định dạng theo toString được không
 string TextBuffer::getContent() const {
-    return buffer.toString();
+    stringstream s;
+
+    element<char>* current = this->buffer.head;
+    int index = 0;
+    bool cursorAdded = 0;
+    while(current) {
+        if(index == cursorPos) {
+            s << "|";
+            cursorAdded = 1; 
+        }
+        index++;
+        s << current->value;
+        current = current->next;
+    }
+    if(!cursorAdded) s << "|\n";
+    else s<<'\n';
+
+    return s.str();
 }
 
 int TextBuffer::getCursorPos() const {
@@ -351,14 +372,66 @@ void TextBuffer::sortAscending() {
     cursorPos = 0;
 }
 
+string strSeperator(string value, int pos){
+    int index = 1;
+    string res = "";
+    switch(pos){
+        case 1:
+            for(int i = 1; i < value.find(','); i++){
+                res += value[i];
+            }
+            return res;
+        case 2:
+            for(int i = value.find(',') + 1; i < value.rfind(','); i++) {
+                res += value[i];
+            }
+            return res;
+        case 3:
+            for(int i = value.rfind(',') + 1; i < value.find(')'); i++) {
+                res += value[i];
+            }
+            return res;
+        default: 
+            return res;
+    }
+}
 void TextBuffer::undo() {
-    this->history.
+    string data = history.actList.get(history.size()-1-undoTime);
+    string actionName = strSeperator(data,1);
+    int cursorPos = stoi(strSeperator(data,2));
+    char character = strSeperator(data,3).at(0);
+    
+    if(actionName == "insert"){
+        this->buffer.deleteAt(cursorPos);
+        this->cursorPos--;
+    }
+    else if(actionName == "delete"){
+        this->buffer.insertAt(cursorPos-1,character);
+        this->cursorPos++;
+    }
+    else if(actionName == "move"){
+        if(character == 'R')
+            this->cursorPos--;
+        else if (character == 'L')
+            this->cursorPos++;
+        else 
+            cout<<"INVALID !"<<endl;
+    }
+    else
+        cout<<"INVALID !"<<endl;
+
+    undoTime++;
+}
+void TextBuffer::redo() {
+    
 }
 
 // TODO: implement other methods of TextBuffer
 
 // ----------------- HistoryManager -----------------
 TextBuffer::HistoryManager::HistoryManager() {
+    historySize = 0;
+    historyPos = 0;
     cout<<"history list created"<<endl;
 }
 
@@ -366,11 +439,24 @@ TextBuffer::HistoryManager::~HistoryManager() {
     cout<<"history list deleted"<<endl;
 }
 
+int TextBuffer::HistoryManager::size() const {
+    return historySize;
+}
 
 void TextBuffer::HistoryManager::addAction(const string& actionName, int cursorPos, char c) {
-    Action* newAct = new Action(actionName,cursorPos,c);
+    string s = "(" + actionName + "," + to_string(cursorPos) + "," + string(1,c) + ")";
     //xóa những action sau trước khi thêm action mới
-    history.insertAtTail(*newAct);
+    /////////
+    //To do//
+    /////////
+    actList.insertAtTail(s);
+    historySize++;
+    historyPos++;
+
+}
+
+void TextBuffer::HistoryManager::printHistory() const {
+    cout<<this->actList.toString();
 }
 
 //TODO: implement other methods of HistoryManager
@@ -406,13 +492,46 @@ int main(){
     // return 0;
 
 
-    TextBuffer note;
-    string chars = "gTrZaKGpBLmQbNwkXAeYcVoC";
-    for (char c : chars) {
-        note.insert(c);
-    }
-    note.sortAscending();
-    cout<<note.getContent();
-    note.deleteAllOccurrences('c');
-    cout<<note.getContent();
+    // TextBuffer note;
+    // string chars = "gTrZaKGpBLmQbNwkXAeYcVoC";
+    // for (char c : chars) {
+    //     note.insert(c);
+    // }
+    // note.sortAscending();
+    // cout<<note.getContent();
+    // note.deleteAllOccurrences('c');
+    // cout<<note.getContent();
+
+    TextBuffer theList;
+    cout<<theList.getContent();
+    theList.insert('a');
+    cout<<theList.getContent();
+    theList.insert('b');
+    cout<<theList.getContent();
+    theList.insert('c');
+    cout<<theList.getContent();
+    theList.insert('d');
+    cout<<theList.getContent();
+    theList.insert('e');
+    cout<<theList.getContent();
+    theList.deleteChar();
+    cout<<theList.getContent();
+    theList.deleteChar();
+    cout<<theList.getContent();
+    theList.moveCursorLeft();
+    cout<<theList.getContent();
+    theList.deleteChar();
+    cout<<theList.getContent();
+    theList.undo();
+    cout<<theList.getContent();
+    theList.undo();
+    cout<<theList.getContent();
+    theList.undo();
+    cout<<theList.getContent();
+
+
+    theList.history.printHistory();
+
+
+
 }
