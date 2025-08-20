@@ -372,34 +372,17 @@ void TextBuffer::sortAscending() {
     cursorPos = 0;
 }
 
-string strSeperator(string value, int pos){
-    int index = 1;
-    string res = "";
-    switch(pos){
-        case 1:
-            for(int i = 1; i < value.find(','); i++){
-                res += value[i];
-            }
-            return res;
-        case 2:
-            for(int i = value.find(',') + 1; i < value.rfind(','); i++) {
-                res += value[i];
-            }
-            return res;
-        case 3:
-            for(int i = value.rfind(',') + 1; i < value.find(')'); i++) {
-                res += value[i];
-            }
-            return res;
-        default: 
-            return res;
-    }
+void strSeperator(string value, string& actName, int& cursor, char& character){
+    actName = value.substr(1,value.find(',') - 1);
+    cursor = stoi(value.substr(value.find(',') + 1,value.rfind(',') - value.find(',') - 1));
+    character = value.substr(value.rfind(',') + 1, value.find(')') - value.rfind(',') - 1).at(0);
 }
 void TextBuffer::undo() {
     string data = history.actList.get(history.size()-1-undoTime);
-    string actionName = strSeperator(data,1);
-    int cursorPos = stoi(strSeperator(data,2));
-    char character = strSeperator(data,3).at(0);
+    string actionName;
+    int cursorPos;
+    char character;
+    strSeperator(data,actionName,cursorPos,character);
     
     if(actionName == "insert"){
         this->buffer.deleteAt(cursorPos);
@@ -416,8 +399,7 @@ void TextBuffer::undo() {
             this->cursorPos++;
         else 
             cout<<"INVALID !"<<endl;
-    }
-    else
+    } else
         cout<<"INVALID !"<<endl;
 
     undoTime++;
