@@ -90,7 +90,9 @@ public:
         void addAction(const string &actionName, int cursorPos, char c);
         void printHistory() const;
         int size() const;
-
+        
+        void strSeperator(string value, string& actName, int& cursor, char& character);
+        void newHistory();
     };
     friend class TextBuffer::HistoryManager;
     HistoryManager history;
